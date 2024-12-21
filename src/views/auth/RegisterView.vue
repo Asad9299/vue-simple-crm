@@ -11,8 +11,8 @@
     </a>
     <!-- Card -->
     <div class="w-full max-w-xl p-6 space-y-8 sm:p-8 bg-white rounded-lg shadow dark:bg-gray-800">
-      <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Sign in to platform</h2>
-      <form class="mt-8 space-y-6" @submit.prevent="login">
+      <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Create a Free Account</h2>
+      <form class="mt-8 space-y-6" @submit.prevent="register">
         <TextField
           label="Your Email"
           name="email"
@@ -21,6 +21,7 @@
           placeholder="name@company.com"
           v-model="email"
           :required="true"
+          :pattern="emailPattern"
           ref="emailField"
         >
         </TextField>
@@ -33,37 +34,53 @@
           placeholder="••••••••"
           v-model="password"
           :required="true"
+          :pattern="passwordPattern"
           ref="passwordField"
+        >
+        </TextField>
+
+        <TextField
+          label="Confirm Password"
+          name="confirm_password"
+          id="confirm_password"
+          type="password"
+          placeholder="••••••••"
+          v-model="confirm_password"
+          :required="true"
+          ref="confirmPasswordField"
         >
         </TextField>
 
         <div class="flex items-start">
           <div class="flex items-center h-5">
-            <CheckboxField name="remember" id="remember" v-model="remember" :required="true">
+            <CheckboxField
+              name="remember"
+              id="remember"
+              v-model="remember"
+              :required="true"
+              ref="rememberField"
+            >
             </CheckboxField>
           </div>
           <div class="ml-3 text-sm">
             <label for="remember" class="font-medium text-gray-900 dark:text-white">
-              Remember me
+              I accept the
+              <a href="#" class="text-primary-700 hover:underline dark:text-primary-500">
+                Terms and Conditions
+              </a>
             </label>
           </div>
-          <RouterLink
-            :to="{ name: 'register' }"
-            class="ml-auto text-sm text-primary-700 hover:underline"
-          >
-            Lost Password?
-          </RouterLink>
         </div>
 
-        <PrimaryButton label="Login to your account"></PrimaryButton>
+        <PrimaryButton label="Create Account"></PrimaryButton>
 
         <div class="text-sm font-medium text-gray-500 dark:text-gray-400">
-          Not registered?
+          Already have an account?
           <RouterLink
-            :to="{ name: 'register' }"
+            :to="{ name: 'login' }"
             class="text-primary-700 hover:underline dark:text-primary-500"
           >
-            Create account
+            Login here
           </RouterLink>
         </div>
       </form>
@@ -74,24 +91,35 @@
 <script lang="ts" setup>
 import { TextField, PrimaryButton, CheckboxField } from '@/components/elements'
 import { ref } from 'vue'
+
 const email = ref('')
 const password = ref('')
-
+const confirm_password = ref('')
 const remember = ref(false)
+
+const emailPattern = '^\\S+@\\S+\\.\\S+$'
+const passwordPattern = '^.*(?=.{8,})(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%&? "]).*$'
+
 const emailField = ref<typeof TextField>()
 const passwordField = ref<typeof TextField>()
+const confirmPasswordField = ref<typeof TextField>()
+const rememberField = ref<typeof CheckboxField>()
 
 const isValid = () => {
-  if (emailField.value?.validate() && passwordField.value?.validate()) {
-    return true
-  }
-  return false
+  return (
+    emailField.value?.validate() &&
+    passwordField.value?.validate() &&
+    confirmPasswordField.value?.validate() &&
+    rememberField.value?.validate()
+  )
 }
-
-const login = () => {
+const register = () => {
   try {
     if (isValid()) {
-      console.log(email.value, password.value, remember.value)
+      console.log(email.value, password.value, confirm_password.value, remember.value)
+      if (password.value != confirm_password.value) {
+        console.log('Passwords do not match')
+      }
     } else {
       console.log('error')
     }

@@ -34,7 +34,7 @@ const props = defineProps<{
 
 const isValid = ref<boolean | null>(null)
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue', 'validate'])
 
 const handleInput = (event: Event) => {
   emit('update:modelValue', (event.target as HTMLInputElement).value)
@@ -53,5 +53,7 @@ const validate = () => {
     isValid.value = true
     errorMessage.value = ''
   }
+  return isValid.value
 }
+defineExpose({ validate })
 </script>
