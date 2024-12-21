@@ -33,7 +33,6 @@
           placeholder="••••••••"
           v-model="password"
           :required="true"
-          :pattern="passwordPattern"
         >
         </TextField>
 
@@ -69,7 +68,6 @@ const email = ref('')
 const password = ref('')
 
 const emailPattern = '^\\S+@\\S+\\.\\S+$'
-const passwordPattern = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/'
 const login = () => {
   console.log('email', email.value)
 }
