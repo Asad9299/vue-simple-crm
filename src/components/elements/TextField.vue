@@ -4,7 +4,7 @@
       {{ label }}
       <span v-if="props.required" class="text-red-500">*</span>
     </label>
-    {{ 'asad' + isValid }}
+
     <input
       :type="type"
       :name="name"
@@ -20,6 +20,7 @@
 </template>
 
 <script lang="ts" setup>
+import { formatFormKeys } from '@/helpers/utility'
 import { ref } from 'vue'
 const props = defineProps<{
   type: string
@@ -46,7 +47,7 @@ const errorMessage = ref('')
 const validate = () => {
   if (props.required && !props.modelValue) {
     isValid.value = false
-    errorMessage.value = `${props.name} field is required`
+    errorMessage.value = formatFormKeys(props.name) + ' field is required'
   } else if (props.pattern && !new RegExp(props.pattern).test(String(props.modelValue))) {
     isValid.value = false
     errorMessage.value = props.customErrorMessage || `${props.name} field is invalid`

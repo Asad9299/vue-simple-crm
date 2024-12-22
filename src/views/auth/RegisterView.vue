@@ -52,6 +52,9 @@
           ref="confirmPasswordField"
         >
         </TextField>
+        <small v-if="confirmPasswordErrorMessage" class="text-red-500">{{
+          confirmPasswordErrorMessage
+        }}</small>
 
         <div class="flex items-start">
           <div class="flex items-center h-5">
@@ -92,6 +95,7 @@
 
 <script lang="ts" setup>
 import { TextField, PrimaryButton, CheckboxField } from '@/components/elements'
+import ajax from '@/stores/ajax'
 import { ref } from 'vue'
 
 const email = ref('')
@@ -106,8 +110,15 @@ const emailField = ref<typeof TextField>()
 const passwordField = ref<typeof TextField>()
 const confirmPasswordField = ref<typeof TextField>()
 const rememberField = ref<typeof CheckboxField>()
-
+const confirmPasswordErrorMessage = ref('')
 const isValid = () => {
+  confirmPasswordErrorMessage.value = ''
+  if (confirm_password.value.trim() !== '') {
+    if (password.value.trim() !== confirm_password.value.trim()) {
+      confirmPasswordErrorMessage.value = 'Passwords do not match'
+      return false
+    }
+  }
   return (
     emailField.value?.validate() &&
     passwordField.value?.validate() &&
@@ -118,10 +129,15 @@ const isValid = () => {
 const register = () => {
   try {
     if (isValid()) {
-      console.log(email.value, password.value, confirm_password.value, remember.value)
-      if (password.value != confirm_password.value) {
-        console.log('Passwords do not match')
+      const data = {
+        email: email.value,
+        password: password.value,
+        confirm_password: confirm_password.value,
+        remember_me: remember.value,
       }
+      const ajaxObj = new ajax()
+      const response = ajaxObj.post('/register', data)
+      console.log(response)
     } else {
       console.log('error')
     }
