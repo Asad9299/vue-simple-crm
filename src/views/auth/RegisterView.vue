@@ -36,7 +36,9 @@
           :required="true"
           :pattern="passwordPattern"
           ref="passwordField"
+          :custom-error-message="'Password must contain at least 8 characters, at least one letter, at least one number, and at least one special character'"
         >
+          >
         </TextField>
 
         <TextField

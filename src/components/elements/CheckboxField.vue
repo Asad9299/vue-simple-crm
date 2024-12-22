@@ -23,7 +23,7 @@ const props = defineProps<{
   required?: boolean
 }>()
 
-const isValid = ref(true)
+const isValid = ref<boolean | null>(null)
 
 const emit = defineEmits(['update:modelValue'])
 

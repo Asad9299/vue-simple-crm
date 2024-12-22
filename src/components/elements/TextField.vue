@@ -30,6 +30,7 @@ const props = defineProps<{
   modelValue?: string | number
   required?: boolean
   pattern?: string
+  customErrorMessage?: string
 }>()
 
 const isValid = ref<boolean | null>(null)
@@ -48,7 +49,7 @@ const validate = () => {
     errorMessage.value = `${props.name} field is required`
   } else if (props.pattern && !new RegExp(props.pattern).test(String(props.modelValue))) {
     isValid.value = false
-    errorMessage.value = `${props.name} field is invalid`
+    errorMessage.value = props.customErrorMessage || `${props.name} field is invalid`
   } else {
     isValid.value = true
     errorMessage.value = ''
