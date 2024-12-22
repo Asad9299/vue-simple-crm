@@ -1,5 +1,4 @@
 <template>
-  {{ isValid }}
   <input
     :id="id"
     :aria-describedby="name"
