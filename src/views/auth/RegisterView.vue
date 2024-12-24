@@ -14,6 +14,18 @@
       <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Create a Free Account</h2>
       <form class="mt-8 space-y-6" @submit.prevent="register">
         <TextField
+          label="Your Full Name"
+          name="name"
+          id="name"
+          type="name"
+          placeholder="John Doe"
+          v-model="name"
+          :required="true"
+          ref="nameField"
+        >
+        </TextField>
+
+        <TextField
           label="Your Email"
           name="email"
           id="email"
@@ -98,6 +110,7 @@ import { TextField, PrimaryButton, CheckboxField } from '@/components/elements'
 import ajax from '@/stores/ajax'
 import { ref } from 'vue'
 
+const name = ref('')
 const email = ref('')
 const password = ref('')
 const confirm_password = ref('')
@@ -106,6 +119,7 @@ const remember = ref(false)
 const emailPattern = '^\\S+@\\S+\\.\\S+$'
 const passwordPattern = '^.*(?=.{8,})(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%&? "]).*$'
 
+const nameField = ref<typeof TextField>()
 const emailField = ref<typeof TextField>()
 const passwordField = ref<typeof TextField>()
 const confirmPasswordField = ref<typeof TextField>()
@@ -120,6 +134,7 @@ const isValid = () => {
     }
   }
   return (
+    nameField.value?.validate() &&
     emailField.value?.validate() &&
     passwordField.value?.validate() &&
     confirmPasswordField.value?.validate() &&
@@ -130,6 +145,7 @@ const register = () => {
   try {
     if (isValid()) {
       const data = {
+        name: name.value,
         email: email.value,
         password: password.value,
         confirm_password: confirm_password.value,
