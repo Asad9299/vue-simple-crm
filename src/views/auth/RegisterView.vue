@@ -111,6 +111,7 @@ import { handleServerValidationErrors } from '@/helpers/utility'
 import ajax from '@/stores/ajax'
 import { userStore, type User } from '@/stores/user'
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { toast } from 'vue3-toastify'
 
 const name = ref('')
@@ -131,6 +132,8 @@ const acceptField = ref<typeof CheckboxField>()
 const confirmPasswordErrorMessage = ref('')
 
 const userStoreObj = userStore()
+const router = useRouter()
+
 const isValid = () => {
   confirmPasswordErrorMessage.value = ''
   if (confirm_password.value.trim() !== '') {
@@ -164,6 +167,8 @@ const register = async () => {
         toast.success(response.data.message)
         // Set the user in pinia
         userStoreObj.setUser(response.data.data)
+        // redirect to dashboard
+        router.push('/')
       }
     }
   } catch (error: any) {
