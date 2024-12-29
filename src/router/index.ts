@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import { authRoutes } from './auth'
-import { isMetaProperty } from 'typescript'
 import { userStore } from '@/stores/user'
 
 const routes = [
