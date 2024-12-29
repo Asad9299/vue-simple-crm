@@ -76,6 +76,7 @@
               v-model="accept"
               :required="true"
               ref="acceptField"
+              :custom-error-message="acceptValidationMessage"
             >
             </CheckboxField>
           </div>
@@ -128,7 +129,7 @@ const emailField = ref<typeof TextField>()
 const passwordField = ref<typeof TextField>()
 const confirmPasswordField = ref<typeof TextField>()
 const acceptField = ref<typeof CheckboxField>()
-
+const acceptValidationMessage = ref('Please accept terms & Conditions')
 const confirmPasswordErrorMessage = ref('')
 
 const userStoreObj = userStore()

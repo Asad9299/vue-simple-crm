@@ -10,6 +10,7 @@ export type User = {
   confirm_password?: string
   authToken?: string
   accept?: boolean
+  remember_token?: boolean
 }
 
 export const userStore = defineStore('user', () => {

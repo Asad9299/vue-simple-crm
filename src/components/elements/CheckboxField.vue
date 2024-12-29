@@ -14,12 +14,13 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-
+import { formatFormKeys } from '@/helpers/utility'
 const props = defineProps<{
   name: string
   id: string
   modelValue: boolean
   required?: boolean
+  customErrorMessage?: string
 }>()
 
 const isValid = ref<boolean | null>(null)
@@ -35,7 +36,8 @@ const errorMessage = ref('')
 const validate = () => {
   if (props.required && !props.modelValue) {
     isValid.value = false
-    errorMessage.value = 'Please accept the terms and conditions'
+    errorMessage.value =
+      props.customErrorMessage || formatFormKeys(props.name) + ' field is required'
   } else {
     isValid.value = true
     errorMessage.value = ''

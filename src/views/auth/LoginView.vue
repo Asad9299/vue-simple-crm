@@ -39,8 +39,7 @@
 
         <div class="flex items-start">
           <div class="flex items-center h-5">
-            <CheckboxField name="remember" id="remember" v-model="remember" :required="true">
-            </CheckboxField>
+            <CheckboxField name="remember" id="remember" v-model="remember"> </CheckboxField>
           </div>
           <div class="ml-3 text-sm">
             <label for="remember" class="font-medium text-gray-900 dark:text-white">
@@ -74,6 +73,12 @@
 <script lang="ts" setup>
 import { TextField, PrimaryButton, CheckboxField } from '@/components/elements'
 import { ref } from 'vue'
+import ajax from '@/stores/ajax'
+import { handleServerValidationErrors } from '@/helpers/utility'
+import { toast } from 'vue3-toastify'
+import { useRouter } from 'vue-router'
+import { userStore, type User } from '@/stores/user'
+
 const email = ref('')
 const password = ref('')
 
@@ -87,16 +92,35 @@ const isValid = () => {
   }
   return false
 }
+const ajaxObj = new ajax()
+const router = useRouter()
+const userStoreObj = userStore()
 
-const login = () => {
+const login = async () => {
+  const data: User = {
+    email: email.value,
+    password: password.value,
+    remember_token: remember.value,
+  }
   try {
     if (isValid()) {
-      console.log(email.value, password.value, remember.value)
-    } else {
-      console.log('error')
+      const response = await ajaxObj.post('/login', data)
+      if (200 === response.status) {
+        toast.success(response.data.message)
+        // Set the user in pinia
+        userStoreObj.setUser(response.data.data)
+        // redirect to homepage
+        router.push({ name: 'home' })
+      }
     }
-  } catch (error) {
-    console.log(error)
+  } catch (error: any) {
+    if (error && error.response && 422 === error.response.status) {
+      const formKeys = Object.keys(data)
+      const errors = error.response.data.errors
+      handleServerValidationErrors(formKeys, errors)
+    } else {
+      // 401 status handling code @TODO
+    }
   }
 }
 </script>
