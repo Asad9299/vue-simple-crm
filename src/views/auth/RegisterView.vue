@@ -71,16 +71,16 @@
         <div class="flex items-start">
           <div class="flex items-center h-5">
             <CheckboxField
-              name="remember"
-              id="remember"
-              v-model="remember"
+              name="accept"
+              id="accept"
+              v-model="accept"
               :required="true"
-              ref="rememberField"
+              ref="acceptField"
             >
             </CheckboxField>
           </div>
           <div class="ml-3 text-sm">
-            <label for="remember" class="font-medium text-gray-900 dark:text-white">
+            <label for="accept" class="font-medium text-gray-900 dark:text-white">
               I accept the
               <a href="#" class="text-primary-700 hover:underline dark:text-primary-500">
                 Terms and Conditions
@@ -109,6 +109,7 @@
 import { TextField, PrimaryButton, CheckboxField } from '@/components/elements'
 import { handleServerValidationErrors } from '@/helpers/utility'
 import ajax from '@/stores/ajax'
+import { userStore, type User } from '@/stores/user'
 import { ref } from 'vue'
 import { toast } from 'vue3-toastify'
 
@@ -116,7 +117,7 @@ const name = ref('')
 const email = ref('')
 const password = ref('')
 const confirm_password = ref('')
-const remember = ref(false)
+const accept = ref(false)
 
 const emailPattern = '^\\S+@\\S+\\.\\S+$'
 const passwordPattern = '^.*(?=.{8,})(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%&? "]).*$'
@@ -125,10 +126,11 @@ const nameField = ref<typeof TextField>()
 const emailField = ref<typeof TextField>()
 const passwordField = ref<typeof TextField>()
 const confirmPasswordField = ref<typeof TextField>()
-const rememberField = ref<typeof CheckboxField>()
+const acceptField = ref<typeof CheckboxField>()
 
 const confirmPasswordErrorMessage = ref('')
 
+const userStoreObj = userStore()
 const isValid = () => {
   confirmPasswordErrorMessage.value = ''
   if (confirm_password.value.trim() !== '') {
@@ -142,27 +144,30 @@ const isValid = () => {
     emailField.value?.validate() &&
     passwordField.value?.validate() &&
     confirmPasswordField.value?.validate() &&
-    rememberField.value?.validate()
+    acceptField.value?.validate()
   )
 }
 const register = async () => {
-  const userData = {
+  const userData: User = {
     name: name.value,
     email: email.value,
     password: password.value,
     confirm_password: confirm_password.value,
-    remember_me: remember.value,
+    accept: accept.value,
   }
   try {
     if (isValid()) {
       const ajaxObj = new ajax()
       const response = await ajaxObj.post('/register', userData)
       if (201 === response.status) {
+        // Show the success message
         toast.success(response.data.message)
+        // Set the user in pinia
+        userStoreObj.setUser(response.data.data)
       }
     }
   } catch (error: any) {
-    if (error && error.response && error.response.status === 422) {
+    if (error && error.response && 422 === error.response.status) {
       const formKeys = Object.keys(userData)
       const errors = error.response.data.errors
       handleServerValidationErrors(formKeys, errors)
