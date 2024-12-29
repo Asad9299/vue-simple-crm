@@ -107,8 +107,10 @@
 
 <script lang="ts" setup>
 import { TextField, PrimaryButton, CheckboxField } from '@/components/elements'
+import { handleServerValidationErrors } from '@/helpers/utility'
 import ajax from '@/stores/ajax'
 import { ref } from 'vue'
+import { toast } from 'vue3-toastify'
 
 const name = ref('')
 const email = ref('')
@@ -124,7 +126,9 @@ const emailField = ref<typeof TextField>()
 const passwordField = ref<typeof TextField>()
 const confirmPasswordField = ref<typeof TextField>()
 const rememberField = ref<typeof CheckboxField>()
+
 const confirmPasswordErrorMessage = ref('')
+
 const isValid = () => {
   confirmPasswordErrorMessage.value = ''
   if (confirm_password.value.trim() !== '') {
@@ -141,24 +145,28 @@ const isValid = () => {
     rememberField.value?.validate()
   )
 }
-const register = () => {
+const register = async () => {
+  const userData = {
+    name: name.value,
+    email: email.value,
+    password: password.value,
+    confirm_password: confirm_password.value,
+    remember_me: remember.value,
+  }
   try {
     if (isValid()) {
-      const data = {
-        name: name.value,
-        email: email.value,
-        password: password.value,
-        confirm_password: confirm_password.value,
-        remember_me: remember.value,
-      }
       const ajaxObj = new ajax()
-      const response = ajaxObj.post('/register', data)
-      console.log(response)
-    } else {
-      console.log('error')
+      const response = await ajaxObj.post('/register', userData)
+      if (201 === response.status) {
+        toast.success(response.data.message)
+      }
     }
-  } catch (error) {
-    console.log(error)
+  } catch (error: any) {
+    if (error && error.response && error.response.status === 422) {
+      const formKeys = Object.keys(userData)
+      const errors = error.response.data.errors
+      handleServerValidationErrors(formKeys, errors)
+    }
   }
 }
 </script>
