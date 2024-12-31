@@ -177,6 +177,13 @@ const register = async () => {
       const formKeys = Object.keys(userData)
       const errors = error.response.data.errors
       handleServerValidationErrors(formKeys, errors)
+    } else if (error && error.response && 401 === error.response.status) {
+      toast.error(error.response.data.error)
+      return false
+    } else {
+      const errorMessage =
+        error.response?.data.message ?? 'An unexpected error occurred. Please try again.'
+      toast.error(errorMessage)
     }
   }
 }
