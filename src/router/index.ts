@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import { authRoutes } from './auth'
 import { userStore } from '@/stores/user'
+import NotFoundView from '@/views/NotFoundView.vue'
 
 const routes = [
   ...authRoutes,
@@ -12,6 +13,11 @@ const routes = [
     meta: {
       requiresAuth: true,
     },
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'notfound',
+    component: NotFoundView,
   },
 ]
 

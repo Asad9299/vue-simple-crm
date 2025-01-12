@@ -27,7 +27,7 @@
 
             <li>
               <a
-                href="javascript:void(0)"
+                href=""
                 class="flex items-center p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700 bg-gray-100 dark:bg-gray-700"
               >
                 <svg-icon
@@ -42,6 +42,8 @@
 
             <li>
               <a
+                href="javascript:void(0)"
+                @click="logout"
                 class="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-gray-200 dark:hover:bg-gray-700"
               >
                 Logout
@@ -55,10 +57,15 @@
 </template>
 
 <script lang="ts" setup>
-import SvgIcon from '@/components/svgs/SvgIcon.vue'
+import { SvgIcon } from '@/components/svgs'
+import { userStore } from '@/stores/user'
+import { useRouter } from 'vue-router'
 
-const logout = () => {
-  alert('asad')
-  console.log('pending logout')
+const userStoreObj = userStore()
+const router = useRouter()
+
+const logout = (): void => {
+  userStoreObj.removeUser()
+  router.push({ name: 'login' })
 }
 </script>
