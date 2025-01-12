@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import { authRoutes } from './auth'
 import { userStore } from '@/stores/user'
 import NotFoundView from '@/views/NotFoundView.vue'
+import { productRoutes } from './products'
 
 const routes = [
   ...authRoutes,
@@ -14,6 +15,7 @@ const routes = [
       requiresAuth: true,
     },
   },
+  ...productRoutes,
   {
     path: '/:pathMatch(.*)*',
     name: 'notfound',

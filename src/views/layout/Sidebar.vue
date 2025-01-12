@@ -13,22 +13,32 @@
         >
           <ul class="pb-2 space-y-2">
             <li>
-              <a
-                href="https://flowbite-admin-dashboard.vercel.app/"
+              <RouterLink
+                :to="{ name: 'home' }"
                 class="flex items-center p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700"
+                :class="
+                  isRouteActive('home') ? 'dark:hover:bg-gray-700 bg-gray-100 dark:bg-gray-700' : ''
+                "
               >
                 <svg-icon
                   class="w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
                   icon="dashboard"
-                ></svg-icon>
-                <span class="ml-3" sidebar-toggle-item>Dashboard</span>
-              </a>
+                >
+                </svg-icon>
+
+                <span class="ml-3" sidebar-toggle-item> Dashboard </span>
+              </RouterLink>
             </li>
 
             <li>
-              <a
-                href=""
-                class="flex items-center p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700 bg-gray-100 dark:bg-gray-700"
+              <RouterLink
+                :to="{ name: 'product.index' }"
+                class="flex items-center p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700"
+                :class="
+                  isRouteActive('product.index')
+                    ? 'dark:hover:bg-gray-700 bg-gray-100 dark:bg-gray-700'
+                    : ''
+                "
               >
                 <svg-icon
                   class="w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
@@ -37,7 +47,7 @@
                 </svg-icon>
 
                 <span class="ml-3" sidebar-toggle-item="">Products</span>
-              </a>
+              </RouterLink>
             </li>
 
             <li>
@@ -59,7 +69,7 @@
 <script lang="ts" setup>
 import { SvgIcon } from '@/components/svgs'
 import { userStore } from '@/stores/user'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 const userStoreObj = userStore()
 const router = useRouter()
@@ -67,5 +77,10 @@ const router = useRouter()
 const logout = (): void => {
   userStoreObj.removeUser()
   router.push({ name: 'login' })
+}
+
+const isRouteActive = (currentRoute: string): boolean => {
+  const route = useRoute()
+  return route.name === currentRoute
 }
 </script>
