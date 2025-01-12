@@ -1,5 +1,3 @@
-<script setup lang="ts"></script>
-
 <template>
   <aside
     id="sidebar"
@@ -16,13 +14,27 @@
           <ul class="pb-2 space-y-2">
             <li>
               <a
+                href="https://flowbite-admin-dashboard.vercel.app/"
+                class="flex items-center p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700"
+              >
+                <svg-icon
+                  class="w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+                  icon="dashboard"
+                ></svg-icon>
+                <span class="ml-3" sidebar-toggle-item>Dashboard</span>
+              </a>
+            </li>
+
+            <li>
+              <a
                 href="javascript:void(0)"
                 class="flex items-center p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700 bg-gray-100 dark:bg-gray-700"
               >
-                <SvgIcon
+                <svg-icon
                   class="w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
                   icon="layout"
-                />
+                >
+                </svg-icon>
 
                 <span class="ml-3" sidebar-toggle-item="">Products</span>
               </a>
@@ -30,20 +42,6 @@
 
             <li>
               <a
-                href="https://flowbite-admin-dashboard.vercel.app/"
-                class="flex items-center p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700"
-              >
-                <SvgIcon
-                  class="w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
-                  icon="crud"
-                ></SvgIcon>
-                <span class="ml-3" sidebar-toggle-item>Dashboard</span>
-              </a>
-            </li>
-
-            <li>
-              <a
-                @click="logout"
                 class="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-gray-200 dark:hover:bg-gray-700"
               >
                 Logout
@@ -56,7 +54,7 @@
   </aside>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import SvgIcon from '@/components/svgs/SvgIcon.vue'
 
 const logout = () => {
