@@ -1,21 +1,28 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 import { authRoutes } from './auth'
 import { userStore } from '@/stores/user'
 import NotFoundView from '@/views/NotFoundView.vue'
 import { productRoutes } from './products'
+import AppLayout from '@/views/layout/AppLayout.vue'
+import DashboardView from '@/components/DashboardView.vue'
 
 const routes = [
   ...authRoutes,
   {
     path: '/',
-    name: 'home',
-    component: HomeView,
+    component: AppLayout,
+    children: [
+      {
+        path: '/',
+        name: 'home',
+        component: DashboardView,
+      },
+      ...productRoutes,
+    ],
     meta: {
       requiresAuth: true,
     },
   },
-  ...productRoutes,
   {
     path: '/:pathMatch(.*)*',
     name: 'notfound',
