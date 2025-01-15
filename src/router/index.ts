@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { authRoutes } from './auth'
 import { userStore } from '@/stores/user'
 import NotFoundView from '@/views/NotFoundView.vue'
-import { productRoutes } from './products'
+import { userRoutes } from './users'
 import AppLayout from '@/views/layout/AppLayout.vue'
 import DashboardView from '@/components/DashboardView.vue'
 
@@ -17,7 +17,7 @@ const routes = [
         name: 'home',
         component: DashboardView,
       },
-      ...productRoutes,
+      ...userRoutes,
     ],
     meta: {
       requiresAuth: true,

@@ -427,7 +427,7 @@
                     clip-rule="evenodd"
                   ></path>
                 </svg>
-                <div class="text-sm font-medium text-gray-900 dark:text-white">Products</div>
+                <div class="text-sm font-medium text-gray-900 dark:text-white">Users</div>
               </a>
               <a
                 href="#"
