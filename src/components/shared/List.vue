@@ -41,6 +41,6 @@ import SvgIcon from '../svgs/SvgIcon.vue'
 
 defineProps<{
   columns: Array<{ key: string; label: string; sortable?: boolean }>
-  rows: any
+  rows: Array<any>
 }>()
 </script>
