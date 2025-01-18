@@ -1,7 +1,8 @@
 <template>
   <svg :class="class" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
     <g v-if="icons[icon]">
-      <path v-for="(path, index) in icons[icon]" :key="index" v-bind="path"></path>
+      <path v-for="(path, index) in icons[icon]" :key="index" v-bind="path"
+      :fill="path.fill || 'currentColor'" ></path>
     </g>
   </svg>
 </template>
@@ -12,7 +13,7 @@ defineProps<{
   icon: string
 }>()
 
-const icons: Record<string, Array<{ d: string; fillRule?: string; clipRule?: string }>> = {
+const icons: Record<string, Array<any>> = {
   hamburger: [
     {
       d: 'M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h6a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z',
@@ -55,5 +56,15 @@ const icons: Record<string, Array<{ d: string; fillRule?: string; clipRule?: str
       clipRule: 'evenodd',
     },
   ],
+  warning:[
+    {
+      d:"M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z",
+      "stroke":"currentColor",
+      "stroke-linecap":"round",
+      "stroke-linejoin":"round",
+      "stroke-width":"2",
+      fill: 'none',
+    }
+  ]
 }
 </script>
