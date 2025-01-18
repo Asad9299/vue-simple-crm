@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="showModal"
-    id="default-modal"
+    id="modal"
     tabindex="-1"
     aria-hidden="true"
     class="fixed inset-0 z-50 flex justify-center items-center bg-black bg-opacity-50"
