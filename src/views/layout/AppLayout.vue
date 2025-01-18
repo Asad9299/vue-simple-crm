@@ -9,9 +9,9 @@
 
   <div
     id="main-content"
-    class="relative w-full h-full overflow-y-auto bg-gray-50 lg:ml-64 dark:bg-gray-900"
+    class="relative w-full h-screen overflow-y-auto bg-gray-50 lg:ml-64 dark:bg-gray-900 flex flex-col"
   >
-    <main>
+    <main class="flex-grow">
       <div class="px-4 pt-6">
         <div class="grid gap-4 xl:grid-cols-2 2xl:grid-cols-3"></div>
         <div class="flex flex-col mt-6">
