@@ -91,9 +91,7 @@
 </template>
 
 <script lang="ts" setup>
-import { PrimaryButton, TextField } from '@/components/elements'
-import DangerButton from '@/components/elements/buttons/DangerButton.vue'
-import SecondaryButton from '@/components/elements/buttons/SecondaryButton.vue'
+import { PrimaryButton, DangerButton, SecondaryButton, TextField } from '@/components/elements'
 import List from '@/components/shared/List.vue'
 import Modal from '@/components/shared/Modal.vue'
 import SvgIcon from '@/components/svgs/SvgIcon.vue'
