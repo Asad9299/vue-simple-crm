@@ -1,8 +1,12 @@
 <template>
   <svg :class="class" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
     <g v-if="icons[icon]">
-      <path v-for="(path, index) in icons[icon]" :key="index" v-bind="path"
-      :fill="path.fill || 'currentColor'" ></path>
+      <path
+        v-for="(path, index) in icons[icon]"
+        :key="index"
+        v-bind="path"
+        :fill="path.fill || 'currentColor'"
+      ></path>
     </g>
   </svg>
 </template>
@@ -56,15 +60,35 @@ const icons: Record<string, Array<any>> = {
       clipRule: 'evenodd',
     },
   ],
-  warning:[
+  warning: [
     {
-      d:"M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z",
-      "stroke":"currentColor",
-      "stroke-linecap":"round",
-      "stroke-linejoin":"round",
-      "stroke-width":"2",
+      d: 'M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z',
+      stroke: 'currentColor',
+      'stroke-linecap': 'round',
+      'stroke-linejoin': 'round',
+      'stroke-width': '2',
       fill: 'none',
-    }
-  ]
+    },
+  ],
+  nextPg: [
+    {
+      d: 'M5 18l13-8-13-8',
+      stroke: 'currentColor',
+      'stroke-linecap': 'round',
+      'stroke-linejoin': 'round',
+      'stroke-width': '4',
+      fill: 'none',
+    },
+  ],
+  prevPg: [
+    {
+      d: 'M15 2 2 10l13 8',
+      stroke: 'currentColor',
+      'stroke-linecap': 'round',
+      'stroke-linejoin': 'round',
+      'stroke-width': '4',
+      fill: 'none',
+    },
+  ],
 }
 </script>

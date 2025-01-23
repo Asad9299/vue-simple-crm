@@ -17,7 +17,7 @@
       <tbody>
         <tr
           class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-          v-for="row in rows"
+          v-for="row in paginatedRows"
           :key="row.id"
         >
           <td
@@ -33,14 +33,38 @@
           </td>
         </tr>
       </tbody>
+
+      <tfooter>
+        <div class="mt-2">
+          <Pagination :pages="totalPages" @page-change="handlePageChange"></Pagination>
+        </div>
+      </tfooter>
     </table>
   </div>
 </template>
 <script lang="ts" setup>
+import { computed, ref } from 'vue'
 import SvgIcon from '../svgs/SvgIcon.vue'
+import Pagination from './Pagination.vue'
 
-defineProps<{
+const props = defineProps<{
   columns: Array<{ key: string; label: string; sortable?: boolean }>
   rows: Array<any>
 }>()
+
+// Rows per page
+const rowsPerPage = 2
+const currentPage = ref(1)
+
+// Calculate total pages
+const totalPages = computed(() => Math.ceil(props.rows.length / rowsPerPage))
+
+// Get rows for the current page
+const paginatedRows = computed(() =>
+  props.rows.slice((currentPage.value - 1) * rowsPerPage, currentPage.value * rowsPerPage)
+)
+
+const handlePageChange = (page: number) => {
+  currentPage.value = page
+}
 </script>
