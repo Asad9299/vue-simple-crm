@@ -1,4 +1,10 @@
 <template>
+  <select @change="updateRecordLimit">
+    <option value="5">5</option>
+    <option value="10">10</option>
+    <option value="20">20</option>
+    <option value="50">50</option>
+  </select>
   <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
       <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -36,7 +42,13 @@
 
       <tfooter>
         <div class="mt-2">
-          <Pagination :pages="totalPages" @page-change="handlePageChange"></Pagination>
+          <Pagination
+            :currentPage="currentPage"
+            :pages="totalPages"
+            @page-change="handlePageChange"
+            @handle-next-page="handleNextPage"
+            @handle-previous-page="handlePreviousPage"
+          ></Pagination>
         </div>
       </tfooter>
     </table>
@@ -53,18 +65,38 @@ const props = defineProps<{
 }>()
 
 // Rows per page
-const rowsPerPage = 2
+const rowsPerPage = ref(5)
 const currentPage = ref(1)
 
 // Calculate total pages
-const totalPages = computed(() => Math.ceil(props.rows.length / rowsPerPage))
+const totalPages: any = computed(() => Math.ceil(props.rows.length / rowsPerPage.value))
 
 // Get rows for the current page
 const paginatedRows = computed(() =>
-  props.rows.slice((currentPage.value - 1) * rowsPerPage, currentPage.value * rowsPerPage)
+  props.rows.slice(
+    (currentPage.value - 1) * rowsPerPage.value,
+    currentPage.value * rowsPerPage.value
+  )
 )
 
 const handlePageChange = (page: number) => {
   currentPage.value = page
+}
+
+const updateRecordLimit = (event: any) => {
+  rowsPerPage.value = event.target.value
+  currentPage.value = 1
+}
+
+const handleNextPage = () => {
+  if (currentPage.value < totalPages.value) {
+    currentPage.value++
+  }
+}
+
+const handlePreviousPage = () => {
+  if (currentPage.value > 1) {
+    currentPage.value--
+  }
 }
 </script>

@@ -108,6 +108,13 @@ const users: User[] = [
   { id: 1, name: 'Alice', email: 'alice@example.com' },
   { id: 2, name: 'Bob', email: 'bob@example.com' },
   { id: 3, name: 'Charlie', email: 'charlie@example.com' },
+  { id: 4, name: 'John', email: 'john@example.com' },
+  { id: 5, name: 'Doe', email: 'doe@example.com' },
+  { id: 6, name: 'Andrew', email: 'andrew@example.com' },
+  { id: 7, name: 'Salt', email: 'salt@example.com' },
+  { id: 8, name: 'Philip', email: 'philip@example.com' },
+  { id: 9, name: 'Asad', email: 'asad@example.com' },
+  { id: 10, name: 'Test', email: 'test@example.com' },
 ]
 
 const name = ref('')
