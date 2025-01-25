@@ -35,16 +35,24 @@
         </a>
       </li>
     </ul>
+
+    <!-- Help Text -->
+    <div class="mt-3 text-sm text-gray-700 dark:text-gray-400">
+      <span class="font-semibold text-gray-900 dark:text-white">Showing </span>
+      <span class="font-semibold text-gray-900 dark:text-white"> {{ currentPage }}</span> to
+      <span class="font-semibold text-gray-900 dark:text-white"> {{ pages }}</span> of
+      <span class="font-semibold text-gray-900 dark:text-white"> {{ totalRecords }}</span> Entries
+    </div>
   </nav>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
 import SvgIcon from '../svgs/SvgIcon.vue'
 
 const props = defineProps<{
   pages: number
   currentPage: number
+  totalRecords: number
 }>()
 
 const emit = defineEmits<{

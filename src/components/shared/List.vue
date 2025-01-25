@@ -43,6 +43,7 @@
           <Pagination
             :currentPage="currentPage"
             :pages="totalPages"
+            :totalRecords="rows.length"
             @page-change="handlePageChange"
             @handle-next-page="handleNextPage"
             @handle-previous-page="handlePreviousPage"
