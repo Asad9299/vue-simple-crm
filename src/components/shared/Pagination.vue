@@ -47,11 +47,13 @@ const props = defineProps<{
   currentPage: number
 }>()
 
-const emit = defineEmits(['page-change', 'handleNextPage', 'handlePreviousPage'])
-// const currentPage = ref(1)
+const emit = defineEmits<{
+  (e: 'page-change', page: number): void
+  (e: 'handleNextPage'): void
+  (e: 'handlePreviousPage'): void
+}>()
 
 const changePage = (page: any) => {
-  // currentPage.value = page
   emit('page-change', page)
 }
 

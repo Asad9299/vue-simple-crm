@@ -1,10 +1,8 @@
 <template>
-  <select @change="updateRecordLimit">
-    <option value="5">5</option>
-    <option value="10">10</option>
-    <option value="20">20</option>
-    <option value="50">50</option>
-  </select>
+  <div class="m-2">
+    <SelectField label="Records Per Page" :options="recordsLimit" @change="updateRecordLimit">
+    </SelectField>
+  </div>
   <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
       <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -58,6 +56,7 @@
 import { computed, ref } from 'vue'
 import SvgIcon from '../svgs/SvgIcon.vue'
 import Pagination from './Pagination.vue'
+import SelectField from '../elements/SelectField.vue'
 
 const props = defineProps<{
   columns: Array<{ key: string; label: string; sortable?: boolean }>
@@ -67,6 +66,8 @@ const props = defineProps<{
 // Rows per page
 const rowsPerPage = ref(5)
 const currentPage = ref(1)
+
+const recordsLimit = ref<number[]>([5, 10, 50, 100])
 
 // Calculate total pages
 const totalPages: any = computed(() => Math.ceil(props.rows.length / rowsPerPage.value))
@@ -83,8 +84,8 @@ const handlePageChange = (page: number) => {
   currentPage.value = page
 }
 
-const updateRecordLimit = (event: any) => {
-  rowsPerPage.value = event.target.value
+const updateRecordLimit = (value: number) => {
+  rowsPerPage.value = value
   currentPage.value = 1
 }
 
