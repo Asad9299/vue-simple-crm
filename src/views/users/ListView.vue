@@ -1,5 +1,5 @@
 <template>
-  <List :columns="columns" :rows="users">
+  <List :columns="columns" :rows="users" @handle-search="search">
     <template #actions="{ row }">
       <!-- Edit Button -->
       <button
@@ -155,5 +155,9 @@ const deleteUser = () => {
 const editUser = (row: User) => {
   showEditModal.value = true
   console.log('user', row)
+}
+
+const search = ( search: string ) => {
+  console.log('search inside', search);
 }
 </script>

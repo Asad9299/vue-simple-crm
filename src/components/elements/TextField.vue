@@ -14,6 +14,7 @@
       :value="modelValue"
       @input="handleInput"
       @blur="validate"
+      @change="searchString"
     />
     <small v-if="!isValid" class="text-red-500">{{ errorMessage }}</small>
   </div>
@@ -36,7 +37,7 @@ const props = defineProps<{
 
 const isValid = ref<boolean | null>(null)
 
-const emit = defineEmits(['update:modelValue', 'validate'])
+const emit = defineEmits(['update:modelValue', 'validate', 'searchString'])
 
 const handleInput = (event: Event) => {
   emit('update:modelValue', (event.target as HTMLInputElement).value)
@@ -57,5 +58,10 @@ const validate = () => {
   }
   return isValid.value
 }
+
+const searchString = () => {
+  emit('searchString', props.modelValue)
+}
+
 defineExpose({ validate })
 </script>

@@ -1,7 +1,12 @@
 <template>
-  <div class="m-2">
-    <SelectField label="Records Per Page" :options="recordsLimit" @change="updateRecordLimit">
-    </SelectField>
+  <div class="m-2 flex items-center justify-between gap-4">
+    <div class="w-1/4">
+      <SelectField label="Records Per Page" :options="recordsLimit" @change="updateRecordLimit" />
+    </div>
+
+    <div class="w-1/3">
+      <TextField type="text" name="search" label="Search" placeholder="Search" v-model="search" @search-string="handleSearch" />
+    </div>
   </div>
   <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -58,11 +63,19 @@ import { computed, ref } from 'vue'
 import SvgIcon from '../svgs/SvgIcon.vue'
 import Pagination from './Pagination.vue'
 import SelectField from '../elements/SelectField.vue'
+import TextField from '../elements/TextField.vue';
 
 const props = defineProps<{
   columns: Array<{ key: string; label: string; sortable?: boolean }>
   rows: Array<any>
 }>()
+
+const emit = defineEmits<{
+  (e: 'handleSearch', value: string): void
+}>()
+
+
+const search = ref('');
 
 // Rows per page
 const rowsPerPage = ref(5)
@@ -101,4 +114,9 @@ const handlePreviousPage = () => {
     currentPage.value--
   }
 }
+
+const handleSearch = ( search: string ) => {
+  emit('handleSearch', search)
+}
+
 </script>
