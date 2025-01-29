@@ -15,8 +15,9 @@
           <th scope="col" class="px-6 py-3" v-for="(column, index) in columns" :key="index">
             <div class="flex items-center">
               {{ column.label }}
-              <a href="javascript:void(0)">
-                <SvgIcon class="w-3 h-3 ms-1.5" icon="sort" />
+              <a href="javascript:void(0)" class="inline-flex items-center" @click="handleSort(column.key)">
+                <SvgIcon class="w-4 h-4 text-gray-800 dark:text-white -mr-1" icon="arrow_down" />
+                <SvgIcon class="w-4 h-4 text-gray-800 dark:text-white -ml-1" icon="arrow_up" />
               </a>
             </div>
           </th>
@@ -71,7 +72,8 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  (e: 'handleSearch', value: string): void
+  (e: 'handleSearch', value: string): void,
+  (e: 'sortKey', key: string): void
 }>()
 
 
@@ -117,6 +119,10 @@ const handlePreviousPage = () => {
 
 const handleSearch = ( search: string ) => {
   emit('handleSearch', search)
+}
+
+const handleSort = (key: string) => {
+  emit('sortKey', key)
 }
 
 </script>

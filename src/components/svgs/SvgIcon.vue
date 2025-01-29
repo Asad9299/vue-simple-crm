@@ -60,6 +60,26 @@ const icons: Record<string, Array<any>> = {
       clipRule: 'evenodd',
     },
   ],
+  arrow_down: [
+    {
+      d: 'M12 19V5m0 14-4-4m4 4 4-4',
+      stroke: 'currentColor',
+      'stroke-linecap': 'round',
+      'stroke-linejoin': 'round',
+      'stroke-width': '2',
+      fill: 'none',
+    },
+  ],
+  arrow_up: [
+    {
+      d: 'M12 6v13m0-13 4 4m-4-4-4 4',
+      stroke: 'currentColor',
+      'stroke-linecap': 'round',
+      'stroke-linejoin': 'round',
+      'stroke-width': '2',
+      fill: 'none',
+    },
+  ],
   warning: [
     {
       d: 'M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z',
