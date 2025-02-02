@@ -16,8 +16,11 @@
             <div class="flex items-center">
               {{ column.label }}
               <a href="javascript:void(0)" class="inline-flex items-center" @click="handleSort(column.key)">
-                <SvgIcon class="w-4 h-4 text-gray-800 dark:text-white -mr-1" icon="arrow_down" @click="sortOrder = 'DESC'" />
-                <SvgIcon class="w-4 h-4 text-gray-800 dark:text-white -ml-0" icon="arrow_up"  @click="sortOrder = 'ASC'"/>
+                <SvgIcon class="w-4 h-4 text-gray-800 dark:text-white -mr-1" icon="arrow_down" @click="sortOrder = 'DESC'" :class="sortOrder === 'DESC' ? 'bg-black' : ''"
+                 />
+                <SvgIcon class="w-4 h-4 text-gray-800 dark:text-white -ml-0" icon="arrow_up"  @click="sortOrder = 'ASC'"
+                :class="sortOrder === 'ASC' ? 'bg-black' : ''"
+                />
               </a>
             </div>
           </th>
