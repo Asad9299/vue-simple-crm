@@ -16,8 +16,8 @@
             <div class="flex items-center">
               {{ column.label }}
               <a href="javascript:void(0)" class="inline-flex items-center" @click="handleSort(column.key)">
-                <SvgIcon class="w-4 h-4 text-gray-800 dark:text-white -mr-1" icon="arrow_down" />
-                <SvgIcon class="w-4 h-4 text-gray-800 dark:text-white -ml-1" icon="arrow_up" />
+                <SvgIcon class="w-4 h-4 text-gray-800 dark:text-white -mr-1" icon="arrow_down" @click="sortOrder = 'DESC'" />
+                <SvgIcon class="w-4 h-4 text-gray-800 dark:text-white -ml-0" icon="arrow_up"  @click="sortOrder = 'ASC'"/>
               </a>
             </div>
           </th>
@@ -74,8 +74,10 @@ const props = defineProps<{
 const emit = defineEmits<{
   (e: 'handleSearch', value: string): void,
   (e: 'sortKey', key: string): void
+  (e: 'sortOrder', key: string): void
 }>()
 
+const sortOrder = ref('DESC');
 
 const search = ref('');
 
@@ -123,6 +125,11 @@ const handleSearch = ( search: string ) => {
 
 const handleSort = (key: string) => {
   emit('sortKey', key)
+  emit('sortOrder', sortOrder.value)
+}
+
+const toggleSortOrder = (value: string) => {
+    sortOrder.value = value;
 }
 
 </script>

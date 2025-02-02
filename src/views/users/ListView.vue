@@ -1,5 +1,5 @@
 <template>
-  <List :columns="columns" :rows="users" @handle-search="search">
+  <List :columns="columns" :rows="users" @handle-search="search" @sort-key="handleSortKey" @sort-order="handleSortOrder">
     <template #actions="{ row }">
       <!-- Edit Button -->
       <button
@@ -124,6 +124,10 @@ const showDeleteModal = ref(false)
 const showEditModal = ref(false)
 const selectedRow = ref<User | null>(null)
 
+const searchTerm = ref('');
+const sortKey    = ref('');
+const sortOrder  = ref('');
+
 const showConfirmation = (row: User) => {
   showDeleteModal.value = true
   selectedRow.value = row
@@ -158,6 +162,17 @@ const editUser = (row: User) => {
 }
 
 const search = ( search: string ) => {
-  console.log('search inside', search);
+  searchTerm.value = search;
+  console.log('search inside',  searchTerm.value);
+}
+
+const handleSortKey = ( key: string ) => {
+  sortKey.value = key;
+  console.log('sort key', sortKey.value);
+}
+
+const handleSortOrder = ( order: string ) => {
+  sortOrder.value = order;
+  console.log('sort order', sortOrder.value);
 }
 </script>
