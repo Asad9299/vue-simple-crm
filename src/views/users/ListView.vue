@@ -100,7 +100,6 @@ import type { User } from '@/stores/user'
 import { ref } from 'vue'
 
 const columns = [
-  { key: 'id', label: 'ID', sortable: true },
   { key: 'name', label: 'Name', sortable: true },
   { key: 'email', label: 'Email' },
 ]
@@ -135,7 +134,10 @@ const ajaxObj = new ajax();
 
 const listUsers = async () => {
   const response = await ajaxObj.get('/users');
-  users.value = response.data as User[];
+
+  if ( 200 === response.status ) {
+    users.value = (response.data as { data: User[] }).data;
+  }
 }
 listUsers();
 /**
