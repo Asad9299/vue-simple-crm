@@ -30,7 +30,7 @@
       <tbody>
         <tr
           class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-          v-for="row in paginatedRows"
+          v-for="row in props.rows"
           :key="row.id"
         >
           <td
@@ -52,7 +52,8 @@
           <Pagination
             :currentPage="currentPage"
             :pages="totalPages"
-            :totalRecords="rows.length"
+            :totalRecords="totalRecords"
+            :paginationLinks="paginationLinks"
             @page-change="handlePageChange"
             @handle-next-page="handleNextPage"
             @handle-previous-page="handlePreviousPage"
@@ -63,7 +64,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 import SvgIcon from '../svgs/SvgIcon.vue'
 import Pagination from './Pagination.vue'
 import SelectField from '../elements/SelectField.vue'
@@ -71,13 +72,19 @@ import TextField from '../elements/TextField.vue';
 
 const props = defineProps<{
   columns: Array<{ key: string; label: string; sortable?: boolean }>
-  rows: Array<any>
+  rows: Array<any>,
+  currentPage: number,
+  totalPages: number,
+  recordsPerPage: number,
+  paginationLinks: Array<any>,
+  totalRecords: number
 }>()
 
 const emit = defineEmits<{
   (e: 'handleSearch', value: string): void,
   (e: 'sortKey', key: string): void
-  (e: 'sortOrder', key: string): void
+  (e: 'sortOrder', key: string): void,
+  (e: 'page-change', page: number): void
 }>()
 
 const sortOrder = ref('DESC');
@@ -85,24 +92,15 @@ const sortOrder = ref('DESC');
 const search = ref('');
 
 // Rows per page
-const rowsPerPage = ref(5)
-const currentPage = ref(1)
+const rowsPerPage = ref(props.recordsPerPage ?? 5)
+const currentPage = ref(props.currentPage) ?? 1
 
 const recordsLimit = ref<number[]>([5, 10, 50, 100])
 
-// Calculate total pages
-const totalPages: any = computed(() => Math.ceil(props.rows.length / rowsPerPage.value))
-
-// Get rows for the current page
-const paginatedRows = computed(() =>
-  props.rows.slice(
-    (currentPage.value - 1) * rowsPerPage.value,
-    currentPage.value * rowsPerPage.value
-  )
-)
 
 const handlePageChange = (page: number) => {
   currentPage.value = page
+  emit('page-change', page)
 }
 
 const updateRecordLimit = (value: number) => {
@@ -111,14 +109,16 @@ const updateRecordLimit = (value: number) => {
 }
 
 const handleNextPage = () => {
-  if (currentPage.value < totalPages.value) {
+  if (currentPage.value < props.totalPages) {
     currentPage.value++
+    emit('page-change', currentPage.value)
   }
 }
 
 const handlePreviousPage = () => {
   if (currentPage.value > 1) {
     currentPage.value--
+    emit('page-change', currentPage.value)
   }
 }
 
@@ -129,10 +129,6 @@ const handleSearch = ( search: string ) => {
 const handleSort = (key: string) => {
   emit('sortKey', key)
   emit('sortOrder', sortOrder.value)
-}
-
-const toggleSortOrder = (value: string) => {
-    sortOrder.value = value;
 }
 
 </script>

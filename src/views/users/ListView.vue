@@ -1,5 +1,6 @@
 <template>
-  <List :columns="columns" :rows="users" @handle-search="search" @sort-key="handleSortKey" @sort-order="handleSortOrder">
+  <List :columns="columns" :rows="users" @handle-search="search" @sort-key="handleSortKey" @sort-order="handleSortOrder"
+  :currentPage="currentPage" :totalPages="totalPages" :recordsPerPage="recordsPerPage" :paginationLinks="paginationLinks" :totalRecords="totalRecords" @page-change="handlePageChange">
     <template #actions="{ row }">
       <!-- Edit Button -->
       <button
@@ -97,7 +98,7 @@ import Modal from '@/components/shared/Modal.vue'
 import SvgIcon from '@/components/svgs/SvgIcon.vue'
 import ajax from '@/stores/ajax'
 import type { User } from '@/stores/user'
-import { ref } from 'vue'
+import { provide, ref } from 'vue'
 
 const columns = [
   { key: 'name', label: 'Name', sortable: true },
@@ -130,13 +131,23 @@ const cancelEdit = () => {
   showEditModal.value = false
 }
 
+const currentPage     = ref(1);
+const totalPages      = ref(1);
+const recordsPerPage  = ref(5);
+const paginationLinks = ref([]);
+const totalRecords    = ref(0);
+
 const ajaxObj = new ajax();
 
 const listUsers = async () => {
-  const response = await ajaxObj.get('/users');
-
+  const response = await ajaxObj.get('/users?page=' + currentPage.value);
   if ( 200 === response.status ) {
     users.value = (response.data as { data: User[] }).data;
+    currentPage.value = (response.data as any).meta.current_page;
+    totalPages.value = (response.data as any).meta.last_page;
+    recordsPerPage.value = (response.data as any).meta.per_page;
+    paginationLinks.value = (response.data as any).meta.links;
+    totalRecords.value = (response.data as any).meta.total;
   }
 }
 listUsers();
@@ -173,5 +184,10 @@ const handleSortKey = ( key: string ) => {
 const handleSortOrder = ( order: string ) => {
   sortOrder.value = order;
   console.log('sort order', sortOrder.value);
+}
+
+const handlePageChange = ( page: number ) => {
+  currentPage.value = page;
+  listUsers();
 }
 </script>
