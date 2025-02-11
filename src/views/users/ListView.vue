@@ -140,7 +140,7 @@ const totalRecords    = ref(0);
 const ajaxObj = new ajax();
 
 const listUsers = async () => {
-  const response = await ajaxObj.get('/users?page=' + currentPage.value);
+  const response = await ajaxObj.get('/users?page=' + currentPage.value+"&search="+searchTerm.value+"&sort_key="+sortKey.value+"&sort_order="+sortOrder.value);
   if ( 200 === response.status ) {
     users.value = (response.data as { data: User[] }).data;
     currentPage.value = (response.data as any).meta.current_page;
@@ -173,17 +173,17 @@ const editUser = (row: User) => {
 
 const search = ( search: string ) => {
   searchTerm.value = search;
-  console.log('search inside',  searchTerm.value);
+  listUsers();
 }
 
 const handleSortKey = ( key: string ) => {
   sortKey.value = key;
-  console.log('sort key', sortKey.value);
+  listUsers();
 }
 
 const handleSortOrder = ( order: string ) => {
   sortOrder.value = order;
-  console.log('sort order', sortOrder.value);
+  listUsers();
 }
 
 const handlePageChange = ( page: number ) => {
