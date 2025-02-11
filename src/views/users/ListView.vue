@@ -98,7 +98,8 @@ import Modal from '@/components/shared/Modal.vue'
 import SvgIcon from '@/components/svgs/SvgIcon.vue'
 import ajax from '@/stores/ajax'
 import type { User } from '@/stores/user'
-import { provide, ref, watch } from 'vue'
+import { ref, watch } from 'vue'
+import { toast } from 'vue3-toastify'
 
 const columns = [
   { key: 'name', label: 'Name', sortable: true },
@@ -159,9 +160,13 @@ listUsers();
  * Called on Yes, I am sure
  */
 
-const deleteUser = () => {
+const deleteUser = async () => {
   if (selectedRow.value) {
-    console.log('selectedRow', selectedRow.value)
+    const response = await ajaxObj.delete('/users/' + (selectedRow.value as User).uuid);
+    if ( 200 === response.status ) {
+      toast.success('User deleted successfully');
+      listUsers();
+    }
     /*
       AJAX Reuqest to delete the user.
     */

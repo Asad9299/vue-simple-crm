@@ -98,6 +98,7 @@ const userStoreObj = userStore()
 
 const login = async () => {
   const data: User = {
+    uuid: '',
     email: email.value,
     password: password.value,
     remember_token: remember.value,

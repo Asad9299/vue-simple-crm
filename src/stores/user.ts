@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { reactive } from 'vue'
 
 export type User = {
+  uuid: string,
   id?: number
   name?: string
   email: string
