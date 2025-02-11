@@ -140,6 +140,10 @@ const totalRecords    = ref(0);
 const ajaxObj = new ajax();
 
 const listUsers = async () => {
+  if ( sortKey.value === '' || sortOrder.value === '' ) {
+    sortKey.value   = 'name';
+    sortOrder.value = 'DESC';
+  }
   const response = await ajaxObj.get('/users?page=' + currentPage.value+"&search="+searchTerm.value+"&sort_key="+sortKey.value+"&sort_order="+sortOrder.value);
   if ( 200 === response.status ) {
     users.value = (response.data as { data: User[] }).data;
