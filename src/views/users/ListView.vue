@@ -98,7 +98,7 @@ import Modal from '@/components/shared/Modal.vue'
 import SvgIcon from '@/components/svgs/SvgIcon.vue'
 import ajax from '@/stores/ajax'
 import type { User } from '@/stores/user'
-import { provide, ref } from 'vue'
+import { provide, ref, watch } from 'vue'
 
 const columns = [
   { key: 'name', label: 'Name', sortable: true },
@@ -173,21 +173,21 @@ const editUser = (row: User) => {
 
 const search = ( search: string ) => {
   searchTerm.value = search;
-  listUsers();
 }
 
 const handleSortKey = ( key: string ) => {
   sortKey.value = key;
-  listUsers();
 }
 
 const handleSortOrder = ( order: string ) => {
   sortOrder.value = order;
-  listUsers();
 }
 
 const handlePageChange = ( page: number ) => {
   currentPage.value = page;
-  listUsers();
 }
+
+watch([searchTerm, sortKey, sortOrder, currentPage], () => {
+  listUsers();
+})
 </script>

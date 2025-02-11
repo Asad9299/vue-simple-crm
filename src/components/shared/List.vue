@@ -84,7 +84,8 @@ const emit = defineEmits<{
   (e: 'handleSearch', value: string): void,
   (e: 'sortKey', key: string): void
   (e: 'sortOrder', key: string): void,
-  (e: 'page-change', page: number): void
+  (e: 'page-change', page: number): void,
+  (e: 'handleSort', key: string): void  
 }>()
 
 const sortOrder = ref('DESC');
