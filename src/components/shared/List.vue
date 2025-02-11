@@ -45,6 +45,12 @@
             <slot name="actions" :row="row"></slot>
           </td>
         </tr>
+
+        <tr v-if="rows.length === 0">
+          <td class="px-6 py-4 font-medium text-center text-gray-900 whitespace-nowrap dark:text-white" colspan="100%">
+            No records found
+          </td>
+        </tr>
       </tbody>
 
       <tfooter>
@@ -85,7 +91,7 @@ const emit = defineEmits<{
   (e: 'sortKey', key: string): void
   (e: 'sortOrder', key: string): void,
   (e: 'page-change', page: number): void,
-  (e: 'handleSort', key: string): void  
+  (e: 'handleSort', key: string): void
 }>()
 
 const sortOrder = ref('DESC');
